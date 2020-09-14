@@ -24,3 +24,4 @@ endfunction()
 
 add_example(hello_world)
 add_example(trapezoid)
+add_example(send_recieve)
