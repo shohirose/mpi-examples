@@ -5,10 +5,6 @@
 #include <vector>
 #include <numeric>
 
-enum ErrorCode {
-  FileNotFound,
-};
-
 int main(int argc, char** argv) {
   MPI_Init(&argc, &argv);
 
