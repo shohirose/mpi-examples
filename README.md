@@ -49,7 +49,7 @@ You can run executables by
 $> mpiexec -np <number of processes> <executable name>
 ```
 
-where `<number of processes>` can be a integer, and `<executable name>` can be `hello_world.exe`, for example.
+where `<number of processes>` can be an integer, and `<executable name>` can be `hello_world.exe`, for example.
 
 ### Linux or Mac
 
