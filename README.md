@@ -6,55 +6,65 @@ This is a collection of c++ code examples for MPI. You can build examples by usi
 
 ### Windows
 
-You can use either MS-MPI or MPICH. MS-MPI can be downloaded from [here](https://docs.microsoft.com/ja-jp/message-passing-interface/microsoft-mpi), and MPICH can be downloaded from [here](https://www.mpich.org/downloads/).
+You can use MS-MPI, which can be downloaded from the following webpage:
+
+https://docs.microsoft.com/ja-jp/message-passing-interface/microsoft-mpi
+
+Microsoft also provides an example of how to compile and run a simple MS-MPI program using Visual Studio:
+
+https://learn.microsoft.com/en-us/archive/blogs/windowshpc/how-to-compile-and-run-a-simple-ms-mpi-program
 
 ### Linux or Mac
 
-You can use either OpenMPI or MPICH. I recommend to install OpenMPI or MPICH by using the software package manager. For example, you can install OpenMP in Ubuntu as
+You can use either OpenMPI or MPICH. I recommend to install OpenMPI or MPICH by using any software package manager. For example, you can install OpenMP on Ubuntu as
 
 ```terminal
-$> sudo apt install openmp
+$ sudo apt install openmp
 ```
 
 Or, for MPICH,
 
 ```terminal
-$> sudo apt install mpich
+$ sudo apt install mpich
 ```
 
 ## Build
 
 ### Windows
 
-If you have installed Visual Studio, you can build examples by just opening the project folder. Visual Studio will automatically recognize the CMake scripts and configure the scripts. Then, you can build examples by pressing `F7` button or clicking [Build]>[Build All] in the menue bar.
+#### Visual Studio
+
+If you have installed Visual Studio, you can build examples by just opening the project folder. Visual Studio will automatically recognize CMake scripts in this project folder. Then, you can build examples by pressing `F7` button or clicking [Build]>[Build All] in the menue bar.
+
+#### Visual Studio Code
+
+Open this folder with Visual Studio Code. If you have installed the C/C++ extension pack and CMake tools extension, you can easily build the project.
 
 ### Linux or Mac
 
-You need CMake to build the project. Under the project root directory, type the follwing command to build examples:
+You need CMake to build this project. Under the project root directory, type the follwing command to build examples:
 
 ```terminal
-$> mkdir build
-$> cd build
-$> cmake ..
-$> make
+$ cmake -S . -B build
+$ cmake --build build
 ```
 
 ## Run
 
 ### Windows
 
-You can run executables by
+You can run executables with the following command on PowerShell:
 
-```
-$> mpiexec -np <number of processes> <executable name>
+```powershell
+> mpiexec -np [number of processes] [executable name]
 ```
 
-where `<number of processes>` can be an integer, and `<executable name>` can be `hello_world.exe`, for example.
+where `[number of processes]` can be an integer, and `[executable name]` can be `hello_world.exe`, for example.
 
 ### Linux or Mac
 
-You can run executables by
+You can run executables with the following command on Terminal:
 
 ```
-$> mpirun -np <number of processes> <executable name>
+$ mpirun -np [number of processes] [executable name]
 ```
