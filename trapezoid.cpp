@@ -1,7 +1,7 @@
+#include <fmt/core.h>
 #include <mpi.h>
 
 #include <cstdio>
-#include <iostream>
 #include <utility>
 
 /// @brief Integrates a function using the trapezoidal rule.
@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
   MPI_Reduce(&sum, &pi, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
   if (rank == 0) {
-    printf("intervals = %d, pi = %.16f\n", n, pi);
+    fmt::print("intervals = {}, pi = {:.10f}\n", n, pi);
   }
 
   MPI_Finalize();
