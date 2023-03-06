@@ -81,6 +81,9 @@ class MpiCommunicator {
   int get_rank() const noexcept { return rank_; }
   int get_size() const noexcept { return size_; }
 
+  /// @brief Checks if it is the root process
+  bool is_root() const noexcept { return rank_ == 0; }
+
  private:
   int rank_;
   int size_;
@@ -96,7 +99,7 @@ int main(int argc, char* argv[]) {
   double pi = 0.0;
   MPI_Reduce(&sum, &pi, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
-  if (comm.get_rank() == 0) {
+  if (comm.is_root()) {
     fmt::print("intervals = {}, pi = {:.10f}\n", n, pi);
   }
 }
