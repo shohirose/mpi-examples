@@ -38,13 +38,13 @@ double integrate(Range rng, int n, F&& f) {
 }
 
 /**
- * @brief Gets the integral range of the current process
+ * @brief Create the integral range of the current process
  *
  * @param size Number of processes
  * @param rank Process ID
  * @return Integral range
  */
-Range get_range(int size, int rank) {
+Range make_range(int size, int rank) {
   const auto dx = 2.0 / size;
   const auto low = rank * dx - 1;
   const auto high = (rank + 1) * dx - 1;
@@ -78,8 +78,8 @@ class MpiCommunicator {
 
   ~MpiCommunicator() { MPI_Finalize(); }
 
-  int get_rank() const noexcept { return rank_; }
-  int get_size() const noexcept { return size_; }
+  int rank() const noexcept { return rank_; }
+  int size() const noexcept { return size_; }
 
   /// @brief Checks if it is the root process
   bool is_root() const noexcept { return rank_ == 0; }
@@ -92,7 +92,7 @@ class MpiCommunicator {
 int main(int argc, char* argv[]) {
   MpiCommunicator comm(argc, argv);
 
-  const auto rng = get_range(comm.get_size(), comm.get_rank());
+  const auto rng = make_range(comm.size(), comm.rank());
   const int n = 100000;
   const auto sum = integrate(rng, n, [](double x) { return 2 / (1 + x * x); });
 
