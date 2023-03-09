@@ -52,31 +52,37 @@ Range make_range(int size, int rank) {
 }
 
 /**
- * @brief MPI communicator
+ * @brief Set up the MPI environment
  *
- * This class calls MPI_Init and MPI_Finalize in the cstor and dstor,
- * respectively. Thus an object should be created only once in the beggining of
- * the main function.
+ */
+class MpiEnvironment {
+ public:
+  /**
+   * @brief Construct a new MPI environment object
+   */
+  MpiEnvironment() { MPI_Init(nullptr, nullptr); }
+
+  /**
+   * @brief Construct a new MPI environment object
+   */
+  MpiEnvironment(int argc, char* argv[]) { MPI_Init(&argc, &argv); }
+  MpiEnvironment(const MpiEnvironment&) = delete;
+  MpiEnvironment(MpiEnvironment&&) = delete;
+  ~MpiEnvironment() { MPI_Finalize(); }
+};
+
+/**
+ * @brief MPI communicator
  */
 class MpiCommunicator {
  public:
-  MpiCommunicator() = delete;
-
   /**
    * @brief Construct an MPI communicator
-   *
-   * @param argc
-   * @param argv
    */
-  MpiCommunicator(int argc, char* argv[]) : rank_{}, size_{} {
-    MPI_Init(&argc, &argv);
+  MpiCommunicator() : rank_{}, size_{} {
     MPI_Comm_size(MPI_COMM_WORLD, &size_);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank_);
   }
-
-  MpiCommunicator(const MpiCommunicator&) = delete;
-
-  ~MpiCommunicator() { MPI_Finalize(); }
 
   int rank() const noexcept { return rank_; }
   int size() const noexcept { return size_; }
@@ -90,16 +96,17 @@ class MpiCommunicator {
 };
 
 int main(int argc, char* argv[]) {
-  MpiCommunicator comm(argc, argv);
+  MpiEnvironment env(argc, argv);
+  MpiCommunicator com;
 
-  const auto rng = make_range(comm.size(), comm.rank());
+  const auto rng = make_range(com.size(), com.rank());
   const int n = 100000;
   const auto sum = integrate(rng, n, [](double x) { return 2 / (1 + x * x); });
 
   double pi = 0.0;
   MPI_Reduce(&sum, &pi, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
-  if (comm.is_root()) {
+  if (com.is_root()) {
     fmt::print("intervals = {}, pi = {:.10f}\n", n, pi);
   }
 }
