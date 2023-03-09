@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.14)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -13,18 +13,18 @@ project(mpi-examples CXX)
 find_package(MPI REQUIRED)
 
 function(add_example name)
-    add_executable(${name} ${name}.cpp)
+    add_executable(${name} ${ARGN})
     target_link_libraries(${name}
-    PRIVATE
+    PUBLIC
         MPI::MPI_CXX
-        fmt::fmt
+        fmt::fmt-header-only
     )
     target_compile_features(${name}
-    PRIVATE
+    PUBLIC
         cxx_std_17
     )
     target_compile_options(${name}
-    PRIVATE
+    PUBLIC
         $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic>
         $<$<CXX_COMPILER_ID:Clang>:-Wall -Wextra -Wpedantic>
         $<$<CXX_COMPILER_ID:Intel>:$<IF:$<PLATFORM_ID:Windows>,/warn:all,-warn all>>
@@ -32,6 +32,6 @@ function(add_example name)
     )
 endfunction()
 
-add_example(hello_world)
-add_example(trapezoid)
-add_example(send_recieve)
+add_example(hello_world hello_world.cpp)
+add_example(trapezoid trapezoid.cpp)
+add_example(send_recieve send_recieve.cpp)
