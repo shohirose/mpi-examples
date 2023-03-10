@@ -16,7 +16,7 @@ https://learn.microsoft.com/en-us/archive/blogs/windowshpc/how-to-compile-and-ru
 
 ### Linux or Mac
 
-You can use either OpenMPI or MPICH. I recommend to install OpenMPI or MPICH by using any software package manager. For example, you can install OpenMP on Ubuntu as
+You can use either OpenMPI or MPICH. I recommend to install OpenMPI or MPICH by using any software package manager. For example, you can install OpenMPI on Ubuntu as
 
 ```terminal
 $ sudo apt install openmpi
